@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Помічник для підготовки виховного заходу</title>
+<style>
+:root{--green:#009846;--navy:#152731;--line:#d9e3de;--pale:#f3f7f5;--muted:#52636a}*{box-sizing:border-box}body{margin:0;color:var(--navy);font:16px/1.5 Arial, sans-serif;background:white}header{border-top:5px solid var(--green);border-bottom:1px solid var(--line);padding:20px max(22px,calc((100vw - 1120px)/2));font-weight:700}main{max-width:1120px;margin:auto;padding:48px 22px 75px}h1{font-size:clamp(30px,4vw,48px);line-height:1.1;margin:0 0 15px}h2{font-size:24px;margin:0 0 10px}p{color:var(--muted);margin:0 0 20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:32px}.panel{border:1px solid var(--line);padding:26px}.fields{display:grid;gap:18px}.fields label{display:grid;gap:6px;font-weight:700;font-size:14px}.fields input:not([type=radio]):not([type=checkbox]),select,.fields textarea,#result{width:100%;padding:11px 12px;border:1px solid #adbbb5;background:white;color:var(--navy);font:inherit;line-height:1.5}.fields textarea{min-height:95px;resize:vertical}fieldset{border:1px solid var(--line);display:flex;gap:15px 25px;flex-wrap:wrap;padding:12px 15px}legend{font-weight:700;font-size:14px}fieldset label,.fields .check{display:flex;gap:8px;align-items:flex-start;font-weight:400;line-height:1.4}.fields input[type=radio],.fields input[type=checkbox]{accent-color:var(--green);margin:4px 0 0}.output{align-self:start;background:var(--pale);border-top:4px solid var(--green)}#result{height:480px;resize:vertical}.button{border:0;background:var(--green);color:#fff;padding:13px 20px;font:inherit;font-weight:700;cursor:pointer;margin-top:14px}.button:hover{background:var(--navy)}.actions{display:flex;flex-wrap:wrap;gap:10px}.secondary{background:var(--navy)}.status{min-height:1.5em;margin:12px 0 0;font-size:14px}.note{font-size:14px;margin-top:17px}.hidden{display:none!important}:focus-visible{outline:3px solid var(--green);outline-offset:2px}@media(max-width:800px){.grid{grid-template-columns:1fr}.panel{padding:19px}main{padding-top:35px}}
+.extra-options{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;width:100%}.extra-options label{display:flex;align-items:flex-start;gap:7px;font-size:13px;font-weight:400}.extra-options input{accent-color:var(--green);margin:3px 0 0}@media(max-width:500px){.extra-options{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>Виховний простір коледжу</header>
+<main><h1>Запит для підготовки виховного заходу</h1><p>Опишіть авторський задум, зміст і власні матеріали заходу. Помічник складе запит для методичної розробки, якою зможуть скористатися колеги. Скопіюйте його в обраний текстовий ШІ. Усе працює у вашому браузері, дані нікуди не надсилаються цією сторінкою.</p>
+<div class="grid"><form class="panel fields" id="form" autocomplete="off">
+<fieldset><legend>Стан заходу</legend><label><input type="radio" name="kind" value="planned" checked> Планується</label><label><input type="radio" name="kind" value="held"> Уже проведено</label></fieldset>
+<label>Основний напрям виховної роботи<select id="direction"></select></label>
+<fieldset id="extra-directions"><legend>Додаткові напрями, якщо потрібні</legend><div id="extra-options" class="extra-options"></div></fieldset>
+<label>Тема заходу<input id="topic" placeholder="Вкажіть авторську назву або робочу тему"></label>
+<label>Група або аудиторія<input id="audience" placeholder="Наприклад, група 11а"></label>
+<label>Курс<input id="course" placeholder="Наприклад, 1 курс"></label>
+<label>Вік студентів<input id="age" placeholder="Наприклад, 15-16 років"></label>
+<label>Спеціальність<input id="specialty" placeholder="Наприклад, H1 Агрономія"></label>
+<label>Освітньо-професійна програма<input id="program" placeholder="Назва ОПП, якщо має значення для заходу"></label>
+<label>Автор або відповідальний<input id="author" placeholder="Ім’я та прізвище"></label>
+<label>Тривалість<input id="duration" placeholder="Наприклад, 30 хвилин"></label>
+<label id="details-label">Авторський задум і зміст заходу<textarea id="details" placeholder="Опишіть мету, основні етапи, власні завдання чи вправи, матеріали та задуманий підсумок"></textarea></label>
+<label>Безпека й доступність, якщо умови відомі<textarea id="safety" placeholder="Дії під час повітряної тривоги, альтернативна участь, добровільність відповідей на чутливі запитання"></textarea></label>
+<label class="check"><input type="checkbox" id="file"> Прикріплю файл сценарію або презентації в розмові з ШІ</label>
+<label class="held-only hidden">Текст допису із сайту або соцмереж<textarea id="post" placeholder="Вставте текст публікації"></textarea></label>
+<label class="held-only hidden">Посилання на новину, якщо є<input id="link" type="url" placeholder="https://..."></label>
+</form>
+<section class="panel output"><h2 id="output-title">Запит для методичної розробки</h2><p>Скопіюйте запит. Якщо маєте файл, прикріпіть його окремо вже в обраному ШІ. Ця сторінка не зчитує файли.</p><textarea id="result" readonly aria-label="Готовий запит для ШІ"></textarea><div class="actions"><button class="button" id="copy" type="button">Скопіювати запит</button><button class="button secondary" id="download" type="button">Зберегти запит .txt</button></div><p id="status" class="status" role="status" aria-live="polite"></p><p class="note">Перед використанням перевірте факти, авторство, персональні дані та відповідність реальному перебігу заходу.</p></section></div>
+</main>
+<script>
+const directions=['Організаційна робота','Національно-патріотичне виховання','Громадянсько-патріотичне виховання','Духовно-моральне виховання','Військово-патріотичне виховання','Морально-правове виховання','Художньо-естетичне виховання','Професійно-трудове виховання','Фізичне виховання','Родинно-сімейне виховання','Гендерне виховання','Екологічне виховання'];
+const form=document.querySelector('#form'),result=document.querySelector('#result'),select=document.querySelector('#direction'),extras=document.querySelector('#extra-options');
+directions.forEach(value=>{select.add(new Option(value,value));const label=document.createElement('label'),box=document.createElement('input');box.type='checkbox';box.value=value;label.append(box,document.createTextNode(' '+value));extras.append(label)});
+const value=id=>document.getElementById(id).value.trim();
+function update(){
+ const held=form.elements.kind.value==='held';
+ document.querySelectorAll('.held-only').forEach(el=>el.classList.toggle('hidden',!held));
+ document.querySelector('#details-label').firstChild.textContent=held?'Авторський перебіг проведеного заходу':'Авторський задум і зміст заходу';
+ document.querySelector('#details').placeholder=held?'Опишіть етапи, дії студентів, власні завдання, використані матеріали й підтверджені результати':'Опишіть мету, основні етапи, власні завдання чи вправи, матеріали та задуманий підсумок';
+ document.querySelector('#output-title').textContent='Запит для методичної розробки';
+ const extra=[...extras.querySelectorAll('input:checked')].map(box=>box.value).filter(item=>item!==value('direction'));
+ const source=[`Основний напрям виховної роботи: ${value('direction')}`,`Додаткові напрями: ${extra.length?extra.join(', '):'не обрано. Не додавай їх автоматично'}`,`Тема або робоча назва: ${value('topic')||'[не вказана]'}`,`Аудиторія: ${value('audience')||'[не вказана]'}`,`Курс: ${value('course')||'[не вказано]'}`,`Вік студентів: ${value('age')||'[не вказано]'}`,`Спеціальність: ${value('specialty')||'[не вказана]'}`,`Освітньо-професійна програма: ${value('program')||'[не вказана]'}`,`Автор або відповідальний: ${value('author')||'[не вказаний]'}`,`Тривалість: ${value('duration')||'[не вказана]'}`,`${held?'Авторський перебіг і підтверджені дії':'Авторський задум і зміст заходу'}:\n${value('details')||(document.querySelector('#file').checked?'[дивись прикріплений авторський матеріал]':'[не надано - попроси автора описати зміст перед складанням розробки]')}`,`Безпека й доступність: ${value('safety')||'[потрібно уточнити]'}`];
+ if(document.querySelector('#file').checked)source.push('Я прикріплю власний файл сценарію або презентації в цій розмові. Якщо вкладення недоступне, попроси додати його знову або вставити текст. Не стверджуй, що прочитав недоступний файл.');
+ if(held&&value('post'))source.push(`Текст допису із сайту або соцмереж:\n${value('post')}`);
+ if(held&&value('link'))source.push(`Посилання на новину: ${value('link')}. Перевір сторінку лише якщо маєш доступ. Інакше попроси текст і не стверджуй, що прочитав її.`);
+ const common='Правила змісту й оформлення:\n- Автором є вказаний викладач. Збережи його тему, задум, вправи, матеріали й порядок дій. Твоя роль - упорядкувати, відредагувати й допомогти деталізувати матеріал, а не підмінити його типовим сценарієм.\n- Якщо немає опису авторського змісту та доступного файла, не створюй готову розробку лише за темою. Спочатку постав до трьох предметних запитань про задум, дії студентів і матеріали.\n- Не додавай напрями виховання для кількості. Кожен обраний додатковий напрям має проявлятися в меті, конкретному завданні й очікуваному результаті. Якщо зміст його не підтверджує, винеси це на погодження з автором, не вигадуй штучної вправи.\n- Сценарій має бути придатним до проведення іншим викладачем: конкретні інструкції, текст або зміст запитань, дії учасників, час, потрібні матеріали й готові додатки. Узгодь таймінг із кількістю груп і виступів. Не повторюй однакових тез у різних розділах.\n- Пиши українською, конкретно, без пафосу, канцеляризмів, русизмів і довгих тире. Не вигадуй дат, осіб, цитат, посилань, реакцій і результатів. Не описуй планований захід як проведений.\n- Оформи чистий документ із назвою, логічними заголовками, короткими абзацами й додатками після сценарію. Не починай кожен абзац словами «Методична пропозиція» і не вставляй службові коментарі ШІ в основний текст. Справді нові вправи та непідтверджені професійні приклади подай наприкінці окремим коротким розділом «На погодження з автором», де ясно назви, що саме запропоновано. Невідомі дані познач лише там, де вони потрібні для використання, без повторення порожніх полів.\n- Завершуй стислим переліком конкретних питань до автора перед публікацією в репозиторії. Текст має бути зручним для редагування у Word і збереження в PDF.';
+ const intro=`Допоможи викладачу фахового коледжу підготувати авторську методичну розробку виховного заходу для повторного використання. ${held?'Захід уже проведено. Віднови придатний для повторного проведення сценарій із наданих матеріалів; не пиши звіт і не видавай припущення за фактичний перебіг.':'Захід планується. Запропонуй практичний сценарій, не описуй його як уже проведений.'}`;
+ const structure=`Структура розробки:\n1. Паспорт: тема, основний та обрані додаткові напрями, форма, група, курс, вік, спеціальність та ОПП лише за наявності, автор, орієнтовна тривалість. Невідому дату не вигадуй.\n2. Мета і 2-4 очікувані результати у спостережуваних діях студентів.\n3. Підготовка: матеріали, обладнання, надані або перевірені джерела.\n4. Перебіг: початок, опрацювання, практика, підсумок; час етапів, конкретні дії викладача й студентів, запитання та завдання. Сума часу має відповідати тривалості. Врахуй зазначені курс, вік і професійний контекст під час добору прикладів; не виводь їх із номера групи. Невідомий таймінг познач як пропозицію. Збережи авторські вправи.\n5. Безпека й доступність: дії під час повітряної тривоги за чинним порядком коледжу, можливість альтернативної участі, добровільність відповідей на чутливі запитання. Невідомий порядок залиш для уточнення. Не вимагай розкривати особистий досвід.\n6. Джерела та матеріали, які можна передати іншому викладачу; відсутнє познач для доповнення.${held?'\n7. Підтвердження проведення: надане посилання на новину, якщо є, окремо від сценарію. Не вигадуй результатів чи відгуків.':''}`;
+ result.value=`${intro}\n\n${source.join('\n\n')}\n\n${structure}\n\n${common}`;
+}
+form.addEventListener('input',()=>{update();document.querySelector('#status').textContent=''});form.addEventListener('change',update);form.addEventListener('submit',event=>event.preventDefault());update();
+const status=document.querySelector('#status');
+async function copyPrompt(){
+ let copied=false;
+ if(window.isSecureContext && navigator.clipboard && typeof navigator.clipboard.writeText==='function'){
+  try{await navigator.clipboard.writeText(result.value);copied=true}catch{}
+ }
+ if(!copied){
+  result.focus();result.select();result.setSelectionRange(0,result.value.length);
+  try{copied=document.execCommand('copy')===true}catch{}
+ }
+ status.textContent=copied?'Запит скопійовано. Вставте його в обраний ШІ.':'Автоматичне копіювання недоступне. Запит виділено: натисніть Ctrl+C (на Mac — ⌘C) або збережіть його у файл.';
+}
+document.querySelector('#copy').addEventListener('click',copyPrompt);
+document.querySelector('#download').addEventListener('click',()=>{
+ const blob=new Blob(['\uFEFF',result.value],{type:'text/plain;charset=utf-8'});
+ const url=URL.createObjectURL(blob),anchor=document.createElement('a');
+ anchor.href=url;anchor.download='Запит_для_виховного_заходу.txt';
+ document.body.append(anchor);anchor.click();anchor.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ status.textContent='Файл запиту підготовлено до завантаження.';
+});
+</script>
+</body></html>
