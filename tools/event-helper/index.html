@@ -22,8 +22,8 @@
 <label>Автор або відповідальний<input id="author" placeholder="Ім’я та прізвище"></label>
 <label>Тривалість<input id="duration" placeholder="Наприклад, 30 хвилин"></label>
 <label id="details-label">Зміст заходу<textarea id="details" placeholder="Опишіть наявні ідеї, етапи, завдання та матеріали. Якщо захід планується й ідей ще немає, залиште поле порожнім: помічник запропонує свої варіанти"></textarea></label>
-<p id="material-hint" class="note">Достатньо одного джерела: опишіть зміст або прикріпіть файл сценарію чи презентації в розмові з помічником (ChatGPT). Дублювати зміст файла у формі не потрібно.</p>
-<label class="check"><input type="checkbox" id="file"> Або прикріплю файл сценарію чи презентації в розмові з помічником (ChatGPT)</label>
+<p id="material-hint" class="note held-only hidden">Достатньо одного джерела: опишіть зміст або прикріпіть файл сценарію чи презентації в розмові з помічником (ChatGPT). Дублювати зміст файла у формі не потрібно.</p>
+<label class="check"><input type="checkbox" id="file"> <span id="file-label">Прикріплю наявну чернетку сценарію чи презентації в розмові з помічником (ChatGPT), якщо маю</span></label>
 <label class="held-only hidden">Текст допису про проведений захід<textarea id="post" placeholder="Скопіюйте й вставте текст допису із сайту коледжу або соцмереж. Окремий звіт чи сценарій не обов’язковий: допису достатньо для початку роботи."></textarea></label>
 <label class="held-only hidden">Посилання на новину на сайті коледжу або допис у соціальних мережах (підтвердження проведення)<input id="link" type="url" placeholder="https://..."></label>
 </form>
@@ -48,6 +48,7 @@ specialties.forEach(([name])=>specialtySelect.add(new Option(name,name)));
 const value=id=>document.getElementById(id).value.trim();
 function update(){
  const held=form.elements.kind.value==='held';
+ document.querySelector('#file-label').textContent=held?'Або прикріплю файл сценарію чи презентації в розмові з помічником (ChatGPT)':'Прикріплю наявну чернетку сценарію чи презентації в розмові з помічником (ChatGPT), якщо маю';
  document.querySelector('#material-hint').textContent=held?'Достатньо одного джерела: опишіть проведений захід, або прикріпіть файл сценарію чи презентації в розмові з помічником (ChatGPT), або вставте текст допису нижче. Заповнювати все й дублювати матеріали не потрібно.':'Достатньо одного джерела: опишіть зміст або прикріпіть файл сценарію чи презентації в розмові з помічником (ChatGPT). Дублювати зміст файла у формі не потрібно. Якщо готового змісту немає, помічник запропонує свої варіанти.';
  programField.value=specialties.find(([name])=>name===specialtySelect.value)?.[1]||'';
  document.querySelectorAll('.held-only').forEach(el=>el.classList.toggle('hidden',!held));
